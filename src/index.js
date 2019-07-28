@@ -32,17 +32,12 @@ const CardList = props => {
 
 class Form extends React.Component {
   // using form component allows using some native operations like required
-  // another short hand method which is not official for getting state object for the component
-  state = { userName: "" };
-  handleSubmit = async event => {
+  userNameInput = React.createRef();
+  handleSubmit = event => {
     event.preventDefault(); // prevent default form submit behaviour
     // this.userNameInput is just a reference created by React to the HTML input
     // we could have used DOM API to get the element getElementById
-    const resp = await axios.get(
-      `https://api.github.com/users/${this.state.userName}`
-    );
-    this.props.onSubmit(resp.data);
-    this.setState({ userName: "" });
+    console.log(this.userNameInput.current.value);
   };
 
   render() {
@@ -51,8 +46,7 @@ class Form extends React.Component {
         <input
           type="text"
           placeholder="Github username"
-          value={this.state.userName}
-          onChange={event => this.setState({ userName: event.target.value })}
+          ref={this.userNameInput}
           required
         />
         <button>Add card</button>
